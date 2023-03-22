@@ -1,3 +1,8 @@
+# Vérifier que le deuxième argument a été fourni
+ifndef COMMIT
+    $(error COMMIT n'a pas été défini. Utilisation: make cible COMMIT=ma_variable)
+endif
+
 initialize_git :
 	@echo "Git initialization"
 	git init
@@ -10,13 +15,19 @@ initialize_git :
 pip_git:
 	@echo "pushing ..."
 	git add .
-	git commit -m "first commit"
+	git commit -m $(COMMIT)
 	git push -u origin master
+
+pull_git:
+	@echo "pulling ..."
+	git pull origin master
 env:
 	@echo "setup env ..."
 	pipenv install
 activate:
 	@echo "env activation ..."
 	pipenv shell
+test:
+	python app.py
 
 setup : env
