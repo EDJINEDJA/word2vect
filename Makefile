@@ -8,6 +8,7 @@ initialize_git :
 	git remote add https://github.com/EDJINEDJA/word2vect.git
 	sleep 2
 	git push -u origin main
+
 pip_git:
 	@echo "pushing ..."
 	git add.
