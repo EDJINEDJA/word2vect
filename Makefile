@@ -5,7 +5,7 @@ initialize_git :
 	git commit -m "My first commit"
 	git branch -M origin main
 	sleep 2
-	git remote add https://github.com/EDJINEDJA/word2vect.git
+	git remote add origin https://github.com/EDJINEDJA/word2vect.git
 	sleep 2
 	git push -u origin main
 
