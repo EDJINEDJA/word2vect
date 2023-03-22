@@ -1,16 +1,16 @@
-# word to vect
+# word2vect from scratch using pytorch lib
 
 <p align="center">
     <a href="https://www.python.org/doc/" alt="Python 3.7">
         <img src="https://img.shields.io/badge/python-v3.7+-blue.svg" />
     </a>
-    <a href="https://github.com/EDJINEDJA/traceWithPm4py/blob/main/LICENSE" alt="Licence">
+    <a href="https://github.com/EDJINEDJA/word2vect/blob/main/LICENSE" alt="Licence">
         <img src="https://img.shields.io/badge/license-MIT-yellow.svg" />
     </a>
-    <a href="https://github.com/EDJINEDJA/traceWithPm4py/commits/main" alt="Commits">
+    <a href="https://github.com/EDJINEDJA/word2vect/commits/main" alt="Commits">
         <img src="https://img.shields.io/github/last-commit/mhaythornthwaite/Football_Prediction_Project/master" />
     </a>
-    <a href="https://github.com/EDJINEDJA/traceWithPm4py" alt="Activity">
+    <a href="https://github.com/EDJINEDJA/word2vect" alt="Activity">
         <img src="https://img.shields.io/badge/contributions-welcome-orange.svg" />
     </a>
     <a href="http://matthaythornthwaite.pythonanywhere.com/" alt="Web Status">
@@ -18,6 +18,14 @@
     </a>
 </p>
 
-## word 2 vect 
+## OVERVIEW
+Word2vect is an approach to creat word embedding
+word embedding is numerical transformation of a word in given dimention.
+Except for word2vec there exist other methods to create word embeddings, such as fastText, GloVe, ELMO, BERT, GPT-2
+
+## AIMS
+This little project aims to have hand on how to turn word under numerical form.
+We want to build model adapted to convert word in numerical form using pytorch
+
 
 

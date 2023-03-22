@@ -9,9 +9,9 @@ initialize_git :
 
 pip_git:
 	@echo "pushing ..."
-	git add.
-	git commit _m "first commit"
-	git push -u origin main
+	git add .
+	git commit -m "first commit"
+	git push -u origin master
 env:
 	@echo "setup env ..."
 	pipenv install
