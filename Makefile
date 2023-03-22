@@ -3,11 +3,11 @@ initialize_git :
 	git init
 	git add .
 	git commit -m "My first commit"
-	git branch -M origin main
+	git branch -M origin master
 	sleep 2
 	git remote add origin https://github.com/EDJINEDJA/word2vect.git
 	sleep 2
-	git push -u origin main
+	git push -u origin master
 
 pip_git:
 	@echo "pushing ..."
