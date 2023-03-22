@@ -4,7 +4,9 @@ initialize_git :
 	git add .
 	git commit -m "My first commit"
 	git branch -M origin main
+	sleep 2
 	git remote add https://github.com/EDJINEDJA/word2vect.git
+	sleep 2
 	git push -u origin main
 pip_git:
 	@echo "pushing ..."
@@ -18,4 +20,4 @@ activate:
 	@echo "env activation ..."
 	pipenv shell
 
-setup : env initialize_git
+setup : env
