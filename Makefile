@@ -1,8 +1,3 @@
-# Vérifier que le deuxième argument a été fourni
-ifndef COMMIT
-    $(error COMMIT n'a pas été défini. Utilisation: make cible COMMIT=ma_variable)
-endif
-
 initialize_git :
 	@echo "Git initialization"
 	git init

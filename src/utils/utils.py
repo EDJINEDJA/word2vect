@@ -1,4 +1,8 @@
 import torch
+import os
+
+import torch.optim as optim
+from torch.optim.lr_scheduler import LambdaLR
 from functools import partial
 from torch.utils.data import DataLoader
 from torchtext.data import to_map_style_dataset
@@ -6,7 +10,7 @@ from torchtext.data.utils import get_tokenizer
 from torchtext.vocab import build_vocab_from_iterator
 from torchtext.datasets import WikiText2, WikiText103
 
-from constants import (
+from src.utils.constants import (
     CBOW_N_WORDS,
     SKIPGRAM_N_WORDS,
     MIN_WORD_FREQUENCY,
@@ -17,7 +21,7 @@ class Functional():
     def __init__(self) -> None:
         pass
 
-    def get_data_iterator(ds_name, ds_type, data_dir):
+    def get_data_iterator(self,ds_name, ds_type, data_dir):
         if ds_name == "WikiText2":
             data_iter = WikiText2(root=data_dir, split=(ds_type))
         elif ds_name == "WikiText103":
@@ -121,18 +125,47 @@ class Functional():
         batch_output = torch.tensor(batch_output, dtype=torch.long)
         return batch_input, batch_output
 
+    def get_optimizer_class(self, name: str):
+        if name == "Adam":
+            return optim.Adam
+        else:
+            raise ValueError("Choose optimizer from: Adam")
+            return
+
+    def get_lr_scheduler(self, optimizer, total_epochs: int, verbose: bool = True):
+        """
+        Scheduler to linearly decrease learning rate,
+        so thatlearning rate after the last epoch is 0.
+        """
+        lr_lambda = lambda epoch: (total_epochs - epoch) / total_epochs
+        lr_scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda, verbose=verbose)
+        return lr_scheduler
+
+    def save_config(config: dict, model_dir: str):
+        """Save config file to `model_dir` directory"""
+        config_path = os.path.join(model_dir, "config.yaml")
+        with open(config_path, "w") as stream:
+            yaml.dump(config, stream)
+
+
+    def save_vocab(self, vocab, model_dir: str):
+        """Save vocab file to `model_dir` directory"""
+        vocab_path = os.path.join(model_dir, "vocab.pt")
+        torch.save(vocab, vocab_path)
+
+
 
 class DATALOADER(Functional):
 
     def __init__(self) -> None:
-        super(self, DATALOADER).__init__()
+        super(DATALOADER , self).__init__()
 
 
     def DataLoader(self , model_name, ds_name, ds_type, data_dir, batch_size, shuffle , vocab=None):
         """ Do this bellow, if the user don't load their own vocab"""
+        data_iter = self.get_data_iterator(ds_name, ds_type, data_dir)
         if not vocab:
-            print(f"you don't have you own, you are using vocab performed on {model_name} ...")
-            data_iter = self.get_data_iterator(ds_name, ds_type, data_dir)
+            print(f"you don't have you own vocabulary, you are using vocab performed on {model_name} ...")
             tokenizer = self.get_tokenizer()
             vocab = self.get_vocab(data_iter, tokenizer)
 
