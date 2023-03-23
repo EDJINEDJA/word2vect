@@ -11,13 +11,11 @@ initialize_git :
 	git branch -M origin main
 	git remote add origin https://github.com/EDJINEDJA/word2vect.git
 	git push -u origin main
-
 pip_git:
 	@echo "pushing ..."
 	git add .
 	git commit -m $(COMMIT)
 	git push -u origin master
-
 pull_git:
 	@echo "pulling ..."
 	git pull origin master
