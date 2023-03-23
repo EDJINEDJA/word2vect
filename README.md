@@ -19,9 +19,9 @@
 </p>
 
 ## OVERVIEW
-Word2vect is an approach to creat word embedding
-word embedding is numerical transformation of a word in given dimention.
-Except for word2vec there exist other methods to create word embeddings, such as fastText, GloVe, ELMO, BERT, GPT-2
+Word2vect is an approach to create a word embedding
+Word embedding is a numerical transformation of a word into a given dimension.
+Besides word2vec, there are other methods to create word embeddings, such as fastText, GloVe, ELMO, BERT, GPT-2.
 
 ## AIMS
 This little project aims to have hand on how to turn word under numerical form.
