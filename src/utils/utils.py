@@ -1,6 +1,8 @@
 import torch
 import os
 import json
+import pandas as pd
+import random
 
 import torch.optim as optim
 from torch.optim.lr_scheduler import LambdaLR
@@ -31,6 +33,20 @@ class Functional():
             raise ValueError("Choose dataset from: WikiText2, WikiText103")
         data_iter = to_map_style_dataset(data_iter)
         return data_iter
+
+    def get_data_iterator_own(self,ds_name, ds_type, data_dir):
+        file = f"{data_dir}/{ds_name}.csv"
+        data = pd.read_csv(file, sep=",")
+        data_iter =  []
+        for idx , item in data["Trace"].iteritems():
+            data_iter.append(item)
+
+        data_iter = random.sample(data_iter, len(data_iter))
+
+        if ds_type == "train":
+            return data_iter[:int(len(data_dir)*0.75)]
+        else:
+            return data_iter[int((len(data_dir)-len(data_dir)*0.75)):]
 
     def get_tokenizer(self):
         """
@@ -168,7 +184,6 @@ class DATALOADER(Functional):
     def __init__(self) -> None:
         super(DATALOADER , self).__init__()
 
-
     def DataLoader(self , model_name, ds_name, ds_type, data_dir, batch_size, shuffle , vocab=None):
         """ Do this bellow, if the user don't load their own vocab"""
         data_iter = self.get_data_iterator(ds_name, ds_type, data_dir)
@@ -176,6 +191,30 @@ class DATALOADER(Functional):
             print(f"you don't have you own vocabulary, you are using vocab performed on {model_name} ...")
             tokenizer = self.get_tokenizer()
             vocab = self.get_vocab(data_iter, tokenizer)
+
+        text_pipeline = lambda x: vocab(tokenizer(x))
+
+        if model_name == "cbow":
+            collate_fn = self.collate_cbow
+        elif model_name == "skipgram":
+            collate_fn = self.collate_skipgram
+        else:
+            raise ValueError("Choose model from: [cbow , skipgram]")
+
+        dataloader = DataLoader(
+            data_iter,
+            batch_size=batch_size,
+            shuffle=shuffle,
+            collate_fn=partial(collate_fn, text_pipeline=text_pipeline),
+        )
+        return dataloader, vocab
+
+    def DataLoaderOwn(self , model_name, ds_name, ds_type, data_dir, batch_size, shuffle , vocab=None):
+        """ Do this bellow, if the user don't load their own vocab"""
+        data_iter = self.get_data_iterator_own(ds_name, ds_type, data_dir)
+
+        tokenizer = self.get_tokenizer()
+        vocab = self.get_vocab(data_iter, tokenizer)
 
         text_pipeline = lambda x: vocab(tokenizer(x))
 
