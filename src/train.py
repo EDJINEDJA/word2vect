@@ -39,7 +39,7 @@ class Train():
         vocab_size = len(vocab.get_stoi())
         print(f"Vocabulary size: {vocab_size}")
 
-        if config.get("hyperparameters","model_name") == "CBOW":
+        if config.get("hyperparameters","model_name") == "cbow":
             model_class = WORD2VECTCBOW
         else:
             model_class = WORD2VECTCBOWSKIPGRAM

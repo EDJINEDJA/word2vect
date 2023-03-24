@@ -65,7 +65,6 @@ class Trainer:
         for i, batch_data in enumerate(self.train_dataloader, 1):
             inputs = batch_data[0].to(self.device)
             labels = batch_data[1].to(self.device)
-
             self.optimizer.zero_grad()
             outputs = self.model(inputs)
             loss = self.criterion(outputs, labels)

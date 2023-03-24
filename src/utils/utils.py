@@ -1,5 +1,6 @@
 import torch
 import os
+import json
 
 import torch.optim as optim
 from torch.optim.lr_scheduler import LambdaLR
@@ -141,11 +142,18 @@ class Functional():
         lr_scheduler = LambdaLR(optimizer, lr_lambda=lr_lambda, verbose=verbose)
         return lr_scheduler
 
-    def save_config(config: dict, model_dir: str):
+    def save_config(config):
         """Save config file to `model_dir` directory"""
-        config_path = os.path.join(model_dir, "config.yaml")
-        with open(config_path, "w") as stream:
-            yaml.dump(config, stream)
+        # Convert the config parameters to a dictionary
+        config_dict = {}
+        for section in config.sections():
+            config_dict[section] = {}
+            for key, value in config.items(section):
+                config_dict[section][key] = value
+
+        # Write the dictionary to a JSON file
+        with open(f'./{config.get("hyperparameters","model_dir")}/config.json', 'w') as file:
+            json.dump(config_dict, file)
 
 
     def save_vocab(self, vocab, model_dir: str):
